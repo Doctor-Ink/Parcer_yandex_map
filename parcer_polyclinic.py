@@ -24,21 +24,19 @@ def get_source_html(url):
 
     options = webdriver.ChromeOptions()
     ##### user-agent ########
-
-    options.add_argument(f"user-agent={random.choice(user_agents_list_desktop)}")
-
+    # options.add_argument(f"user-agent={random.choice(user_agents_list_desktop)}")
     # disable wevdriver mode
     options.add_argument("--disable-blink-features=AutomationControlled")
-
-    # версия драйвера Index of /104.0.5112.20/
+    # версия драйвера Index of /105.
     service = Service(
-        'C:\\Users\\Zver\\PycharmProjects\\parcer_get_map_polyclinic\\chromedriver\\chromedriver_win32\\chromedriver.exe',
+        r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\chromedriver\chromedriver.exe',
     )
     driver = webdriver.Chrome(service=service, options=options)
-    driver.maximize_window()
+
     try:
         # open url
         driver.get(url)
+        driver.maximize_window()
         time.sleep(1)
         driver.implicitly_wait(30)
         while True:
@@ -60,7 +58,6 @@ def get_source_html(url):
                 break
             else:
                 actions = ActionChains(driver)
-                driver.implicitly_wait(30)
                 actions.move_to_element(div_element_ol[0]).perform()
                 time.sleep(3)
     except Exception as exc:
@@ -82,7 +79,8 @@ def get_items_urls_and_rating(file_path):
         link_list.append(link)
         try:
             rating = item.find('span', class_='business-rating-badge-view__rating-text _size_m').text.strip()
-        except:
+        except Exception:
+            print(f'Информации о рейтинге нет  -  {item}')
             rating = 'None'
         rating_list.append(rating)
 
@@ -106,9 +104,9 @@ def get_data(file_path):
     options.add_argument("--disable-blink-features=AutomationControlled")
     # запуск в фоновом режиме
     options.add_argument('--headless')
-    # версия драйвера Index of /104.0.5112.20/
+    # версия драйвера Index of /105
     service = Service(
-        'C:\\Users\\Zver\\PycharmProjects\\parcer_get_map_polyclinic\\chromedriver\\chromedriver_win32\\chromedriver.exe',
+        r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\chromedriver\chromedriver.exe',
     )
     driver = webdriver.Chrome(service=service, options=options)
 
@@ -199,8 +197,10 @@ def get_data(file_path):
 
             count += 1
 
-        with open('result.json', 'w', encoding='utf-8') as file:
-            json.dump(result_list, file, indent=4, ensure_ascii=False)
+            with open('result1.json', 'w', encoding='utf-8') as file:
+                json.dump(result_list, file, indent=4, ensure_ascii=False)
+
+
 
     except Exception as exc:
         print(exc)
@@ -214,6 +214,7 @@ def get_data(file_path):
 def main():
     # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
     # get_source_html(url='https://yandex.by/maps/157/minsk/search/%D0%BF%D0%BE%D0%BB%D0%B8%D0%BA%D0%BB%D0%B8%D0%BD%D0%B8%D0%BA%D0%B0%20%D0%BC%D0%B8%D0%BD%D1%81%D0%BA/?ll=27.603947%2C53.900782&sctx=ZAAAAAgCEAAaKAoSCUxTBDi9jztAEapiKv2E80pAEhIJnZ53Y0Fh0z8RH9sy4Cwluz8iBgABAgMEBSgKOABAnQFIAWI0cmVsZXZfcmFua2luZ19oZWF2eV9jbGlja19tYXBzX2Zvcm11bGE9MC4yOmZtbDg2ODQ5MmI1cmVsZXZfcmFua2luZ19oZWF2eV9yZWxldl9tYXBzX2Zvcm11bGE9MC44OmwzX2RjNjY4ODRqAnVhnQHNzEw9oAEAqAEAvQHFYBI9wgGBAYyvx%2BcD8raf7QO%2FicP%2BA5Hd%2BpQEoZXhpATImOKXBPmj8owFgpGHkQSPhveABJmmzPKXA9LxyuMD25fjiQTBrJ3xA%2Bjr7%2FcDuveNsfUEvK%2BvhASdzIvFBNLs4oIEn6%2Fa6wONx%2B%2B%2FBPerqI4Ewf%2B6%2BAPRn72NBObonfjpA8Hj4In0AeoBAPIBAPgBAIICIdC%2F0L7Qu9C40LrQu9C40L3QuNC60LAg0LzQuNC90YHQuooCEzE4NDEwNjAxNCQxODQxMDU5ODaSAgMxNTeaAgxkZXNrdG9wLW1hcHM%3D&sll=27.603947%2C53.900782&sspn=0.347838%2C0.121804&z=11.8')
+    # get_source_html(url='https://yandex.by/maps/10713/yelets/search/%D0%95%D0%BB%D0%B5%D1%86%20%D0%B1%D0%B0%D0%BD%D1%8F/?ll=38.547980%2C52.619062&sll=30.202875%2C55.184219&sspn=0.605621%2C0.194483&z=12')
 
     # step 2 получаем файл ссылок и файл рейтинга
     # get_items_urls_and_rating(file_path='source_page.html')
