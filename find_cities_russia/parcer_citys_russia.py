@@ -6,12 +6,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 import json
+from fake_useragent import UserAgent
 
 headers = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "user-agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
 }
 
+useragent = UserAgent()
 user_agents_list_desktop = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',
     'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',
@@ -20,14 +22,15 @@ user_agents_list_desktop = [
     'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1'
 ]
 
+
 def get_source_html(url):
 
     options = webdriver.ChromeOptions()
     ##### user-agent ########
     # options.add_argument(f"user-agent={random.choice(user_agents_list_desktop)}")
+    options.add_argument(f"user-agent={useragent.random}")
     # disable wevdriver mode
     options.add_argument("--disable-blink-features=AutomationControlled")
-    # версия драйвера Index of /105.
     service = Service(
         r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\chromedriver\chromedriver.exe',
     )
@@ -199,9 +202,6 @@ def get_data(file_path):
 
             with open('result1.json', 'w', encoding='utf-8') as file:
                 json.dump(result_list, file, indent=4, ensure_ascii=False)
-
-
-
     except Exception as exc:
         print(exc)
     finally:
@@ -212,15 +212,24 @@ def get_data(file_path):
 
 
 def main():
-    # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
-    # get_source_html(url='https://yandex.by/maps/157/minsk/search/%D0%BF%D0%BE%D0%BB%D0%B8%D0%BA%D0%BB%D0%B8%D0%BD%D0%B8%D0%BA%D0%B0%20%D0%BC%D0%B8%D0%BD%D1%81%D0%BA/?ll=27.603947%2C53.900782&sctx=ZAAAAAgCEAAaKAoSCUxTBDi9jztAEapiKv2E80pAEhIJnZ53Y0Fh0z8RH9sy4Cwluz8iBgABAgMEBSgKOABAnQFIAWI0cmVsZXZfcmFua2luZ19oZWF2eV9jbGlja19tYXBzX2Zvcm11bGE9MC4yOmZtbDg2ODQ5MmI1cmVsZXZfcmFua2luZ19oZWF2eV9yZWxldl9tYXBzX2Zvcm11bGE9MC44OmwzX2RjNjY4ODRqAnVhnQHNzEw9oAEAqAEAvQHFYBI9wgGBAYyvx%2BcD8raf7QO%2FicP%2BA5Hd%2BpQEoZXhpATImOKXBPmj8owFgpGHkQSPhveABJmmzPKXA9LxyuMD25fjiQTBrJ3xA%2Bjr7%2FcDuveNsfUEvK%2BvhASdzIvFBNLs4oIEn6%2Fa6wONx%2B%2B%2FBPerqI4Ewf%2B6%2BAPRn72NBObonfjpA8Hj4In0AeoBAPIBAPgBAIICIdC%2F0L7Qu9C40LrQu9C40L3QuNC60LAg0LzQuNC90YHQuooCEzE4NDEwNjAxNCQxODQxMDU5ODaSAgMxNTeaAgxkZXNrdG9wLW1hcHM%3D&sll=27.603947%2C53.900782&sspn=0.347838%2C0.121804&z=11.8')
-    # get_source_html(url='https://yandex.by/maps/10713/yelets/search/%D0%95%D0%BB%D0%B5%D1%86%20%D0%B1%D0%B0%D0%BD%D1%8F/?ll=38.547980%2C52.619062&sll=30.202875%2C55.184219&sspn=0.605621%2C0.194483&z=12')
+    list_cities = []
+    with open('cities.txt', encoding='utf-8') as file:
+        reader = file.read()
+        for line in reader.split('\n'):
+            list_cities.append(line)
+        list_cities = list_cities[:-1]
+    print(list_cities)
+
+    for city in list_cities[:2]:
+
+        # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
+         get_source_html(url=f'https://yandex.by/maps/10713/yelets/search/{city}/')
 
     # step 2 получаем файл ссылок и файл рейтинга
     # get_items_urls_and_rating(file_path='source_page.html')
 
     # step 3 проходимся по списку ссылок и достём нужную нам информацию (адрес, телефон и т.д.)
-    print(get_data(file_path='item_link.txt'))
+    # print(get_data(file_path='item_link.txt'))
 
 
 if __name__ =='__main__':
