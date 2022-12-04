@@ -1,2 +1,3 @@
 В случае когда нужно перебрать список из 150 городов
+link for webdriver firefox - https://github.com/mozilla/geckodriver/releases
 время обработки -
