@@ -25,51 +25,46 @@ driver = webdriver.Firefox(service=service, options=options)
 wait = WebDriverWait(driver, 2)
 
 
-def object_webdriver(url, func):
-    ##### user-agent ########
+##### user-agent ########
 
-    # wait.until(
-    # EC.visibility_of_element_located(
-    # (By.CSS_SELECTOR,
-    #  'div.secondary-accordion:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)'))
-    #  )
-    # try:
-    #     element = wait.until(
-    #         EC.presence_of_element_located((By.ID, "myDynamicElement"))
-    #     )
-    # finally:
-    #     driver.quit()
+# wait.until(
+# EC.visibility_of_element_located(
+# (By.CSS_SELECTOR,
+#  'div.secondary-accordion:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)'))
+#  )
+# try:
+#     element = wait.until(
+#         EC.presence_of_element_located((By.ID, "myDynamicElement"))
+#     )
+# finally:
+#     driver.quit()
 
-    # open url
+
+def get_source_html(url):
     driver.get(url)
     driver.maximize_window()
-    func()
 
-
-
-
-def get_source_html(driver, url):
-        while True:
-            # в бесконечном цикле проходим до конца страницы
-            div_element_ol = driver.find_elements(By.CLASS_NAME, 'seo-pagination-view')
-            print(f'количество вложенных списков - {len(div_element_ol)}')
-            divs_element_placeholder = driver.find_elements(By.CLASS_NAME, 'search-snippet-view__placeholder')
-            print(f'количество неотрытых карточек - {len(divs_element_placeholder)}')
-            for index in range(0, len(divs_element_placeholder), 2):
-                actions = ActionChains(driver)
-                driver.implicitly_wait(30)
-                actions.move_to_element(divs_element_placeholder[index]).perform()
-                time.sleep(1)
-            print(len(divs_element_placeholder))
-            trigger = driver.find_elements(By.CLASS_NAME, 'add-business-view__link')
-            if trigger and (len(divs_element_placeholder) == 0):
-                with open("source_page.html", mode='w', encoding='utf-8') as file:
-                    file.write(driver.page_source)
-                break
-            else:
-                actions = ActionChains(driver)
-                actions.move_to_element(div_element_ol[0]).perform()
-                time.sleep(3)
+    while True:
+        # в бесконечном цикле проходим до конца страницы
+        div_element_ol = driver.find_elements(By.CLASS_NAME, 'seo-pagination-view')
+        print(f'количество вложенных списков - {len(div_element_ol)}')
+        divs_element_placeholder = driver.find_elements(By.CLASS_NAME, 'search-snippet-view__placeholder')
+        print(f'количество неотрытых карточек - {len(divs_element_placeholder)}')
+        for index in range(0, len(divs_element_placeholder), 2):
+            actions = ActionChains(driver)
+            driver.implicitly_wait(30)
+            actions.move_to_element(divs_element_placeholder[index]).perform()
+            time.sleep(1)
+        print(len(divs_element_placeholder))
+        trigger = driver.find_elements(By.CLASS_NAME, 'add-business-view__link')
+        if trigger and (len(divs_element_placeholder) == 0):
+            with open("source_page.html", mode='w', encoding='utf-8') as file:
+                file.write(driver.page_source)
+            break
+        else:
+            actions = ActionChains(driver)
+            actions.move_to_element(div_element_ol[0]).perform()
+            time.sleep(3)
 
 
 def get_items_urls_and_rating(file_path):
@@ -196,8 +191,6 @@ def get_data(driver, file_path):
             json.dump(result_list, file, indent=4, ensure_ascii=False)
     return "[INFO] Data collected successfully!"
 
-def func1():
-    print(f'function ONE is done!')
 
 def main():
     list_cities = []
