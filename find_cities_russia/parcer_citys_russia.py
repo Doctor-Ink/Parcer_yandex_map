@@ -1,28 +1,18 @@
 import random
 from bs4 import BeautifulSoup
-from selenium import webdriver
 import time
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 import json
-from fake_useragent import UserAgent
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
 
-headers = {
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "user-agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-}
-useragent = UserAgent()
-options = webdriver.FirefoxOptions()
-# disable wevdriver mode
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument(f"user-agent={useragent.random}")
-service = Service(
-    r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\Firefoxdriver\geckodriver.exe')
-driver = webdriver.Firefox(service=service, options=options)
-wait = WebDriverWait(driver, 2)
+
+driver = uc.Chrome()
+# явное ожидание
+wait = WebDriverWait(driver, 10)
 
 
 ##### user-agent ########
@@ -42,21 +32,23 @@ wait = WebDriverWait(driver, 2)
 
 def get_source_html(url):
     driver.get(url)
-    driver.maximize_window()
+    # driver.maximize_window()
 
     while True:
         # в бесконечном цикле проходим до конца страницы
-        div_element_ol = driver.find_elements(By.CLASS_NAME, 'seo-pagination-view')
+        time.sleep(1)
+        div_element_ol = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'seo-pagination-view')))
+        # div_element_ol = driver.find_elements(By.CLASS_NAME, 'seo-pagination-view')
         print(f'количество вложенных списков - {len(div_element_ol)}')
-        divs_element_placeholder = driver.find_elements(By.CLASS_NAME, 'search-snippet-view__placeholder')
+        divs_element_placeholder = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'search-snippet-view__placeholder')))
+        # divs_element_placeholder = driver.find_elements(By.CLASS_NAME, 'search-snippet-view__placeholder')
         print(f'количество неотрытых карточек - {len(divs_element_placeholder)}')
         for index in range(0, len(divs_element_placeholder), 2):
             actions = ActionChains(driver)
-            driver.implicitly_wait(30)
             actions.move_to_element(divs_element_placeholder[index]).perform()
-            time.sleep(1)
         print(len(divs_element_placeholder))
-        trigger = driver.find_elements(By.CLASS_NAME, 'add-business-view__link')
+        trigger = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'add-business-view__link')))
+        # trigger = driver.find_elements(By.CLASS_NAME, 'add-business-view__link')
         if trigger and (len(divs_element_placeholder) == 0):
             with open("source_page.html", mode='w', encoding='utf-8') as file:
                 file.write(driver.page_source)
@@ -64,7 +56,6 @@ def get_source_html(url):
         else:
             actions = ActionChains(driver)
             actions.move_to_element(div_element_ol[0]).perform()
-            time.sleep(3)
 
 
 def get_items_urls_and_rating(file_path):
@@ -202,10 +193,10 @@ def main():
     print(list_cities)
 
     try:
-        for city in list_cities[:10]:
+        for city in list_cities[:2]:
             print(f'City - {city}')
             # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
-            object_webdriver(url=f'https://yandex.by/maps/?text={city}+баня', func=func1)
+            get_source_html(url=f'https://yandex.by/maps/?text={city}+баня')
     except Exception as exc:
         print(exc)
     finally:
