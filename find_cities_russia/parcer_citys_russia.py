@@ -99,8 +99,6 @@ def get_data(driver, file_path):
     with open(file_path) as file:
         url_list = [url.strip() for url in file.readlines()]
 
-
-
     result_list = []
     count = 1
     urls_count = len(url_list)
@@ -205,15 +203,16 @@ def main():
         for city in list_cities[:10]:
             print(f'City - {city}')
             # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
-            object_webdriver(url=f'https://yandex.by/maps/?text={city}+баня', func=func1)
+            get_source_html(url=f'https://yandex.by/maps/?text={city}+баня',)
+            # step 2 получаем файл ссылок и файл рейтинга
+            get_items_urls_and_rating(file_path='source_page.html')
     except Exception as exc:
         print(exc)
     finally:
         driver.close()
         driver.quit()
 
-    # step 2 получаем файл ссылок и файл рейтинга
-    # get_items_urls_and_rating(file_path='source_page.html')
+
 
     # step 3 проходимся по списку ссылок и достём нужную нам информацию (адрес, телефон и т.д.)
     # print(get_data(file_path='item_link.txt'))
