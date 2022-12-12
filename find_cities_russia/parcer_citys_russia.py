@@ -1,3 +1,4 @@
+import os
 import random
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -9,20 +10,15 @@ import json
 from fake_useragent import UserAgent
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
 
 headers = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "user-agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
 }
-useragent = UserAgent()
-options = webdriver.FirefoxOptions()
-# disable wevdriver mode
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument(f"user-agent={useragent.random}")
-service = Service(
-    r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\Firefoxdriver\geckodriver.exe')
-driver = webdriver.Firefox(service=service, options=options)
-wait = WebDriverWait(driver, 2)
+
+driver = uc.Chrome()
+wait = WebDriverWait(driver, 5)
 
 
 ##### user-agent ########
@@ -52,19 +48,20 @@ def get_source_html(url):
         print(f'количество неотрытых карточек - {len(divs_element_placeholder)}')
         for index in range(0, len(divs_element_placeholder), 2):
             actions = ActionChains(driver)
-            driver.implicitly_wait(30)
+            # driver.implicitly_wait(30)
             actions.move_to_element(divs_element_placeholder[index]).perform()
-            time.sleep(1)
-        print(len(divs_element_placeholder))
+            time.sleep(0.1)
         trigger = driver.find_elements(By.CLASS_NAME, 'add-business-view__link')
+        divs_element_placeholder = driver.find_elements(By.CLASS_NAME, 'search-snippet-view__placeholder')
         if trigger and (len(divs_element_placeholder) == 0):
             with open("source_page.html", mode='w', encoding='utf-8') as file:
                 file.write(driver.page_source)
+            print(f'File source_page is done')
             break
         else:
             actions = ActionChains(driver)
             actions.move_to_element(div_element_ol[0]).perform()
-            time.sleep(3)
+            time.sleep(1)
 
 
 def get_items_urls_and_rating(file_path):
@@ -81,7 +78,7 @@ def get_items_urls_and_rating(file_path):
         try:
             rating = item.find('span', class_='business-rating-badge-view__rating-text _size_m').text.strip()
         except Exception:
-            print(f'Информации о рейтинге нет  -  {item}')
+            print(f"Информации о рейтинге нет  -  {item.find('div', class_='search-business-snippet-view__address').text} - NONE")
             rating = 'None'
         rating_list.append(rating)
 
@@ -95,7 +92,7 @@ def get_items_urls_and_rating(file_path):
     return "[INFO] Urls collected successfully!"
 
 
-def get_data(driver, file_path):
+def get_data(file_path, city):
     with open(file_path) as file:
         url_list = [url.strip() for url in file.readlines()]
 
@@ -103,41 +100,27 @@ def get_data(driver, file_path):
     count = 1
     urls_count = len(url_list)
     for url in url_list:
+        print(f"[+]  Processed: {count}/{urls_count}")
+        count += 1
+
         name_list = []
         adress_list = []
         site_list = []
         social_media = []
+        phones_company_list = []
 
         # open url
-        # print(url)
         driver.get(url)
         driver.maximize_window()
-        time.sleep(1)
-        driver.implicitly_wait(30)
+        # driver.implicitly_wait(10)
 
         # забираем название компании
         try:
             name_company = driver.find_element(By.CLASS_NAME, 'orgpage-header-view__header').text.strip()
             name_list.append(name_company)
         except Exception:
+            print('Name company is None')
             name_company = None
-
-        # забираем телефонные номера
-        phones_company_list = []
-        try:
-            driver.find_element(By.CLASS_NAME, 'card-phones-view__more').click()
-            time.sleep(1)
-            driver.find_element(By.CLASS_NAME, 'card-feature-view__additional').click()
-            time.sleep(1)
-        except Exception as exc:
-            print('Не найден селектор')
-        try:
-            phones_company = driver.find_elements(By.CLASS_NAME, 'card-phones-view__phone-number')
-            for phone_number in phones_company:
-                phone_company = phone_number.text.strip()
-                phones_company_list.append(phone_company)
-        except Exception:
-            phone_company = None
 
         # забираем адресс компании
         try:
@@ -145,6 +128,39 @@ def get_data(driver, file_path):
             adress_list.append(adress_company)
         except Exception:
             adress_company = None
+
+        # забираем телефонные номера
+        try:
+            # ожидаем пока не появится "показать телефон"
+            wait.until(EC.presence_of_element_located(
+                (By.CLASS_NAME, 'card-phones-view__more'))
+             )
+            # нажимаем показать телефон
+            if driver.find_elements(By.CLASS_NAME, 'card-phones-view__more') != []:
+                driver.find_element(By.CLASS_NAME, 'card-phones-view__more').click()
+                time.sleep(0.2)
+                # ожидаем пока не появится "стрелка показать все контакты"
+                try:
+                    wait.until(EC.presence_of_all_elements_located(
+                        (By.CLASS_NAME, 'card-phones-view__phone-number'))
+                     )
+                    driver.find_element(By.CLASS_NAME, 'card-phones-view__phone-number').click()
+                except Exception as exc:
+                    print('Номер телефона один')
+        except Exception as exc:
+            print('Телефон не указан')
+
+        try:
+            phones_company = driver.find_elements(By.CLASS_NAME, 'card-phones-view__phone-number')
+            for phone_number in phones_company:
+                phone_company = phone_number.text.strip()
+                phones_company_list.append(phone_company)
+            print('Phone numbers is done!!!')
+        except Exception:
+            print('Телефон не указан на сайте')
+            phones_company_list = None
+
+
 
         # забираем сайт компании
         try:
@@ -177,15 +193,13 @@ def get_data(driver, file_path):
                 'social_networks_list': social_media
             }
         )
-        time.sleep(random.randrange(1, 2))
+        # time.sleep(random.randrange(1, 2))
         if count % 10 == 0:
             time.sleep(random.randrange(3, 5))
 
-        print(f"[+]  Processed: {count}/{urls_count}")
 
-        count += 1
 
-        with open('result1.json', 'w', encoding='utf-8') as file:
+        with open(f'data\\{city}\\result.json', 'w', encoding='utf-8') as file:
             json.dump(result_list, file, indent=4, ensure_ascii=False)
     return "[INFO] Data collected successfully!"
 
@@ -200,22 +214,23 @@ def main():
     print(list_cities)
 
     try:
-        for city in list_cities[:10]:
+        for city in list_cities[1:2]:
+            try:
+                os.mkdir(f'data\\{city}')
+            except Exception as exc:
+                print('Direction is exists')
             print(f'City - {city}')
             # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
             get_source_html(url=f'https://yandex.by/maps/?text={city}+баня',)
             # step 2 получаем файл ссылок и файл рейтинга
-            get_items_urls_and_rating(file_path='source_page.html')
+            print(get_items_urls_and_rating(file_path='source_page.html'))
+            # step 3 проходимся по списку ссылок и достём нужную нам информацию (адрес, телефон и т.д.)
+            print(get_data(file_path='item_link.txt', city=city))
     except Exception as exc:
         print(exc)
     finally:
         driver.close()
         driver.quit()
-
-
-
-    # step 3 проходимся по списку ссылок и достём нужную нам информацию (адрес, телефон и т.д.)
-    # print(get_data(file_path='item_link.txt'))
 
 
 if __name__ =='__main__':
