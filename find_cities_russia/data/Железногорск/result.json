@@ -1,7 +1,10 @@
 [
     {
         "name_company": "Баня на Курской",
-        "url_company": "https://yandex.by/maps/org/banya_na_kurskoy/232229006327/",
+        "url_yandex": "https://yandex.by/maps/org/banya_na_kurskoy/232229006327/",
+        "coordinates": [
+            "35.432039, 52.331216"
+        ],
         "phone_list": [
             "+7 (920) 267-67-73"
         ],
@@ -17,7 +20,10 @@
     },
     {
         "name_company": "Городская баня",
-        "url_company": "https://yandex.by/maps/org/gorodskaya_banya/105723579482/",
+        "url_yandex": "https://yandex.by/maps/org/gorodskaya_banya/105723579482/",
+        "coordinates": [
+            "35.368434, 52.329408"
+        ],
         "phone_list": [],
         "adress": [
             "Железногорск, ул. Горняков, 24, корп. 1"
@@ -27,10 +33,13 @@
     },
     {
         "name_company": "Банька на дровах",
-        "url_company": "https://yandex.by/maps/org/banka_na_drovakh/179842393631/",
+        "url_yandex": "https://yandex.by/maps/org/banka_na_drovakh/179842393631/",
+        "coordinates": [
+            "35.383076, 52.355994"
+        ],
         "phone_list": [
             "+7 (905) 042-73-56",
-            "+7 (952) 495-47-24"
+            ""
         ],
         "adress": [
             "Железногорск, Ермолаевская ул., 31"
@@ -40,10 +49,13 @@
     },
     {
         "name_company": "На Черняковке",
-        "url_company": "https://yandex.by/maps/org/na_chernyakovke/1244360241/",
+        "url_yandex": "https://yandex.by/maps/org/na_chernyakovke/1244360241/",
+        "coordinates": [
+            "35.375108, 52.333992"
+        ],
         "phone_list": [
             "+7 (47148) 4-72-88",
-            "+7 (920) 700-50-02"
+            ""
         ],
         "adress": [
             "Железногорск, Черняковская ул., 61, корп. 1"
@@ -55,7 +67,10 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/35167349309/",
+        "url_yandex": "https://yandex.by/maps/org/banya/35167349309/",
+        "coordinates": [
+            "35.377174, 52.371348"
+        ],
         "phone_list": [
             "+7 (951) 078-91-12"
         ],
@@ -69,11 +84,14 @@
     },
     {
         "name_company": "Маленькая баня",
-        "url_company": "https://yandex.by/maps/org/malenkaya_banya/176070011683/",
+        "url_yandex": "https://yandex.by/maps/org/malenkaya_banya/176070011683/",
+        "coordinates": [
+            "35.369924, 52.357055"
+        ],
         "phone_list": [
             "+7 (906) 576-11-71",
             "",
-            "+7 (910) 318-25-31"
+            ""
         ],
         "adress": [
             "Железногорск, ул. Красная звезда, 59А"
@@ -83,10 +101,13 @@
     },
     {
         "name_company": "Баня на дровах Рубанька",
-        "url_company": "https://yandex.by/maps/org/banya_na_drovakh_rubanka/1472008106/",
+        "url_yandex": "https://yandex.by/maps/org/banya_na_drovakh_rubanka/1472008106/",
+        "coordinates": [
+            "35.375845, 52.342780"
+        ],
         "phone_list": [
             "+7 (951) 327-05-68",
-            "+7 (903) 872-28-66"
+            ""
         ],
         "adress": [
             "Железногорск, Черняковская ул., 145"
@@ -100,7 +121,10 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/147911365199/",
+        "url_yandex": "https://yandex.by/maps/org/banya/147911365199/",
+        "coordinates": [
+            "35.432039, 52.331216"
+        ],
         "phone_list": [],
         "adress": [
             "Курская область, Железногорск"
@@ -110,7 +134,10 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/212564828178/",
+        "url_yandex": "https://yandex.by/maps/org/banya/212564828178/",
+        "coordinates": [
+            "35.354115, 52.341603"
+        ],
         "phone_list": [],
         "adress": [
             "Железногорск, ул. Гайдара, 1"
@@ -120,7 +147,10 @@
     },
     {
         "name_company": "Баня Трубичено",
-        "url_company": "https://yandex.by/maps/org/banya_trubicheno/188020897722/",
+        "url_yandex": "https://yandex.by/maps/org/banya_trubicheno/188020897722/",
+        "coordinates": [
+            "35.369924, 52.357055"
+        ],
         "phone_list": [],
         "adress": [
             "Железногорск, ул. Красная звезда, 59А"
@@ -129,8 +159,24 @@
         "social_networks_list": null
     },
     {
+        "name_company": "Баня",
+        "url_yandex": "https://yandex.by/maps/org/banya/236461866423/",
+        "coordinates": [
+            "35.336785, 52.350185"
+        ],
+        "phone_list": [],
+        "adress": [
+            "Железногорск, СНТ Мичуринец, 2-я ул., 49"
+        ],
+        "site_company": [],
+        "social_networks_list": null
+    },
+    {
         "name_company": "Гриль-зона Заозерье",
-        "url_company": "https://yandex.by/maps/org/gril_zona_zaozerye/169597630218/",
+        "url_yandex": "https://yandex.by/maps/org/gril_zona_zaozerye/169597630218/",
+        "coordinates": [
+            "35.321973, 52.320419"
+        ],
         "phone_list": [
             "+7 (980) 799-15-51"
         ],
@@ -146,18 +192,11 @@
         ]
     },
     {
-        "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/236461866423/",
-        "phone_list": [],
-        "adress": [
-            "Железногорск, СНТ Мичуринец, 2-я ул., 49"
-        ],
-        "site_company": [],
-        "social_networks_list": null
-    },
-    {
         "name_company": "У Миши",
-        "url_company": "https://yandex.by/maps/org/u_mishi/243992605952/",
+        "url_yandex": "https://yandex.by/maps/org/u_mishi/243992605952/",
+        "coordinates": [
+            "35.321335, 52.320419"
+        ],
         "phone_list": [],
         "adress": [
             "Курская область, Железногорский район, село Разветье"
@@ -167,7 +206,10 @@
     },
     {
         "name_company": "Утюг",
-        "url_company": "https://yandex.by/maps/org/utyug/194053065387/",
+        "url_yandex": "https://yandex.by/maps/org/utyug/194053065387/",
+        "coordinates": [
+            "35.432039, 52.331216"
+        ],
         "phone_list": [
             "+7 (951) 323-17-72"
         ],
@@ -179,7 +221,10 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/210515135301/",
+        "url_yandex": "https://yandex.by/maps/org/banya/210515135301/",
+        "coordinates": [
+            "35.345948, 52.395011"
+        ],
         "phone_list": [],
         "adress": [
             "Орловская область, Дмитровский район, посёлок Артель-Труд"

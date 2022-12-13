@@ -1,9 +1,12 @@
 [
     {
         "name_company": "Баня № 1",
-        "url_company": "https://yandex.by/maps/org/banya_1/1119435754/",
+        "url_yandex": "https://yandex.by/maps/org/banya_1/1119435754/",
+        "coordinates": [
+            "48.524944, 55.847559"
+        ],
         "phone_list": [
-            "+7 (84371) 6-69-80\nПоказать телефон"
+            "+7 (84371) 6-69-80"
         ],
         "adress": [
             "Зеленодольск, ул. Ивана Заикина, 8"
@@ -13,7 +16,10 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/1060302935/",
+        "url_yandex": "https://yandex.by/maps/org/banya/1060302935/",
+        "coordinates": [
+            "48.565421, 55.854072"
+        ],
         "phone_list": [],
         "adress": [
             "Зеленодольск, ул. Жукова, 2"
@@ -23,9 +29,13 @@
     },
     {
         "name_company": "Оазис",
-        "url_company": "https://yandex.by/maps/org/oazis/59048850870/",
+        "url_yandex": "https://yandex.by/maps/org/oazis/59048850870/",
+        "coordinates": [
+            "48.531088, 55.843050"
+        ],
         "phone_list": [
-            "+7 (84371) 7-08-08\nПоказать телефон"
+            "+7 (84371) 7-08-08",
+            ""
         ],
         "adress": [
             "Зеленодольск, ул. Чапаева, 29А"
@@ -37,9 +47,12 @@
     },
     {
         "name_company": "Тихое место",
-        "url_company": "https://yandex.by/maps/org/tikhoye_mesto/87607796646/",
+        "url_yandex": "https://yandex.by/maps/org/tikhoye_mesto/87607796646/",
+        "coordinates": [
+            "48.546098, 55.847361"
+        ],
         "phone_list": [
-            "+7 (900) 322-23-23\nПоказать телефон"
+            "+7 (900) 322-23-23"
         ],
         "adress": [
             "Зеленодольск, Йошкар-Олинская ул., 15"
@@ -49,9 +62,13 @@
     },
     {
         "name_company": "Сабай-Сабай",
-        "url_company": "https://yandex.by/maps/org/sabay_sabay/1746527051/",
+        "url_yandex": "https://yandex.by/maps/org/sabay_sabay/1746527051/",
+        "coordinates": [
+            "48.539658, 55.848044"
+        ],
         "phone_list": [
-            "+7 (950) 319-11-19\nПоказать телефон"
+            "+7 (950) 319-11-19",
+            ""
         ],
         "adress": [
             "Зеленодольск, ул. Островского, 3"
@@ -63,7 +80,10 @@
     },
     {
         "name_company": "Сауна",
-        "url_company": "https://yandex.by/maps/org/sauna/1201988931/",
+        "url_yandex": "https://yandex.by/maps/org/sauna/1201988931/",
+        "coordinates": [
+            "48.561577, 55.858594"
+        ],
         "phone_list": [],
         "adress": [
             "Зеленодольск, ул. Комарова, 8"
@@ -73,9 +93,12 @@
     },
     {
         "name_company": "Сауна",
-        "url_company": "https://yandex.by/maps/org/sauna/1118892351/",
+        "url_yandex": "https://yandex.by/maps/org/sauna/1118892351/",
+        "coordinates": [
+            "48.556968, 55.856558"
+        ],
         "phone_list": [
-            "+7 (84371) 7-77-39\nПоказать телефон"
+            "+7 (84371) 7-77-39"
         ],
         "adress": [
             "Зеленодольск, ул. Комарова, 2"
@@ -85,9 +108,12 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/1196122227/",
+        "url_yandex": "https://yandex.by/maps/org/banya/1196122227/",
+        "coordinates": [
+            "48.659385, 55.831787"
+        ],
         "phone_list": [
-            "+7 (927) 413-07-45\nПоказать телефон"
+            "+7 (927) 413-07-45"
         ],
         "adress": [
             "п. г. т. Васильево, ул. Ленина, 42"
@@ -97,7 +123,10 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/20938791752/",
+        "url_yandex": "https://yandex.by/maps/org/banya/20938791752/",
+        "coordinates": [
+            "48.639344, 55.858617"
+        ],
         "phone_list": [],
         "adress": [
             "Республика Татарстан, Зеленодольск"
@@ -107,9 +136,12 @@
     },
     {
         "name_company": "Баня",
-        "url_company": "https://yandex.by/maps/org/banya/159305773417/",
+        "url_yandex": "https://yandex.by/maps/org/banya/159305773417/",
+        "coordinates": [
+            "48.688275, 55.828647"
+        ],
         "phone_list": [
-            "+7 (965) 580-69-31\nПоказать телефон"
+            "+7 (965) 580-69-31"
         ],
         "adress": [
             "п. г. т. Васильево, Школьная ул., 58, корп. 2"

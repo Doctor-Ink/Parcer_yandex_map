@@ -129,6 +129,14 @@ def get_data(file_path, city):
         except Exception:
             adress_company = None
 
+        # Забираем координаты
+        my_url = driver.current_url
+        # https://yandex.by/maps/org/banya_na_kurskoy/232229006327/?ll=35.432039%2C52.331216&z=9
+        some_list = my_url.split('/')[-1].split('.')
+        coordinates = [some_list[0][-2:] + '.' + some_list[1][:6] + ', ' + some_list[1][-2:] + '.' + some_list[2][:6]]
+
+
+
         # забираем телефонные номера
         try:
             # ожидаем пока не появится "показать телефон"
@@ -186,7 +194,8 @@ def get_data(file_path, city):
         result_list.append(
             {
                 'name_company': name_company,
-                'url_company': url,
+                'url_yandex': url,
+                'coordinates': coordinates,
                 'phone_list': phones_company_list,
                 'adress': adress_list,
                 'site_company': site_list,
@@ -214,7 +223,7 @@ def main():
     print(list_cities)
 
     try:
-        for city in list_cities[1:2]:
+        for city in list_cities[:3]:
             try:
                 os.mkdir(f'data\\{city}')
             except Exception as exc:
