@@ -100,15 +100,15 @@ def get_data(file_path, city):
             name_company = driver.find_element(By.CLASS_NAME, 'orgpage-header-view__header').text.strip()
             name_list.append(name_company)
         except Exception:
-            print('Name company is None')
-            name_company = None
+            # print('Name company is None')
+            name_company = ''
 
         # забираем адресс компании
         try:
             adress_company = driver.find_element(By.CLASS_NAME, 'business-contacts-view__address-link').text.strip()
             adress_list.append(adress_company)
         except Exception:
-            adress_company = None
+            adress_company = ''
 
         # Забираем координаты
         my_url = driver.current_url
@@ -126,33 +126,50 @@ def get_data(file_path, city):
         # забираем телефонные номера
         try:
             # ожидаем пока не появится "показать телефон"
-            wait.until(EC.presence_of_element_located(
-                (By.CLASS_NAME, 'card-phones-view__more'))
-             )
+            show_phone = wait.until(EC.presence_of_element_located(
+                (By.CLASS_NAME, 'card-phones-view__phone'))
+            )
+            # print(show_phone)
             # нажимаем показать телефон
-            if driver.find_elements(By.CLASS_NAME, 'card-phones-view__more') != []:
-                driver.find_element(By.CLASS_NAME, 'card-phones-view__more').click()
-                driver.find_element(By.CLASS_NAME, 'card-phones-view__more').click()
-                time.sleep(0.2)
+            if show_phone:
+                # print('Нажимаем показать телефон')
+                show_phone.click()
+                # print('Нажали показать телефон')
+                arrow_down = wait.until(EC.presence_of_element_located(
+                    (By.XPATH,
+                     "//div[@class='card-phones-view _wide']/div/div/div/div/div[@class='card-feature-view__additional']"))
+                )
+                if arrow_down:
+                    # print('Нажимаем показать все телефоны')
+                    # arrow_down.click()
+                    driver.find_element(By.CLASS_NAME, 'card-phones-view__phone').click()
+                    # print('Нажали показать все телефоны!')
+                    wait.until(EC.presence_of_element_located(
+                        (By.CLASS_NAME, "card-dropdown-view__content"))
+                    )
+                    time.sleep(0.5)
+                    # print('Дождались появления стрелки вверх')
         except Exception as exc:
-            print('Телефон не указан')
+            pass
+            # print('Телефон не указан')
+            # print(exc)
 
         try:
-            phones_company = driver.find_elements(By.CLASS_NAME, 'card-phones-view__phone-number')
-            for phone_number in phones_company:
+            company_phones = driver.find_elements(By.CLASS_NAME, 'card-phones-view__phone-number')
+            for phone_number in company_phones:
                 phone_company = phone_number.text.strip()
                 phones_company_list.append(phone_company)
-            print('Phone numbers is done!!!')
+            # print('Phone numbers is done!!!')
         except Exception:
-            print('Телефон не указан на сайте')
-            phones_company_list = None
+            # print('Телефон не указан на сайте')
+            phones_company_list = ''
 
         # забираем сайт компании
         try:
-            site_company = driver.find_element(By.CLASS_NAME,'business-urls-view__text').text.strip()
+            site_company = driver.find_element(By.CLASS_NAME, 'business-urls-view__text').text.strip()
             site_list.append(site_company)
         except Exception:
-            site_company = None
+            site_company = ''
 
         # забираем ссылки на соцсети
         try:
@@ -163,9 +180,9 @@ def get_data(file_path, city):
                     # print(link)
                     social_media.append(link)
             else:
-                social_media = None
+                social_media = ''
         except Exception:
-            social_medias = None
+            social_medias = ''
         # print(name_company, phones_company_list, adress_company, site_company, social_media)
 
         result_list.append(
@@ -199,7 +216,7 @@ def main():
 
     count = 0
     try:
-        for city in list_cities[:3]:
+        for city in list_cities[51:52]:
             try:
                 os.mkdir(f'data\\{city}')
             except Exception as exc:
