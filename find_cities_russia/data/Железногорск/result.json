@@ -5,6 +5,7 @@
         "coordinates": [
             "35.432039, 52.331216"
         ],
+        "rating": "4,2",
         "phone_list": [
             "+7 (920) 267-67-73"
         ],
@@ -24,12 +25,13 @@
         "coordinates": [
             "35.368434, 52.329408"
         ],
+        "rating": "4,3",
         "phone_list": [],
         "adress": [
             "Железногорск, ул. Горняков, 24, корп. 1"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Банька на дровах",
@@ -37,15 +39,16 @@
         "coordinates": [
             "35.383076, 52.355994"
         ],
+        "rating": "4,3",
         "phone_list": [
             "+7 (905) 042-73-56",
-            ""
+            "+7 (952) 495-47-24"
         ],
         "adress": [
             "Железногорск, Ермолаевская ул., 31"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "На Черняковке",
@@ -53,9 +56,10 @@
         "coordinates": [
             "35.375108, 52.333992"
         ],
+        "rating": "4,1",
         "phone_list": [
             "+7 (47148) 4-72-88",
-            ""
+            "+7 (920) 700-50-02"
         ],
         "adress": [
             "Железногорск, Черняковская ул., 61, корп. 1"
@@ -71,6 +75,7 @@
         "coordinates": [
             "35.377174, 52.371348"
         ],
+        "rating": "4,2",
         "phone_list": [
             "+7 (951) 078-91-12"
         ],
@@ -88,16 +93,17 @@
         "coordinates": [
             "35.369924, 52.357055"
         ],
+        "rating": "4,2",
         "phone_list": [
             "+7 (906) 576-11-71",
-            "",
-            ""
+            "+7 (951) 333-17-66",
+            "+7 (910) 318-25-31"
         ],
         "adress": [
             "Железногорск, ул. Красная звезда, 59А"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня на дровах Рубанька",
@@ -105,9 +111,10 @@
         "coordinates": [
             "35.375845, 52.342780"
         ],
+        "rating": "3,9",
         "phone_list": [
             "+7 (951) 327-05-68",
-            ""
+            "+7 (903) 872-28-66"
         ],
         "adress": [
             "Железногорск, Черняковская ул., 145"
@@ -125,12 +132,13 @@
         "coordinates": [
             "35.432039, 52.331216"
         ],
+        "rating": "4,3",
         "phone_list": [],
         "adress": [
             "Курская область, Железногорск"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -138,12 +146,13 @@
         "coordinates": [
             "35.354115, 52.341603"
         ],
+        "rating": null,
         "phone_list": [],
         "adress": [
             "Железногорск, ул. Гайдара, 1"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня Трубичено",
@@ -151,12 +160,13 @@
         "coordinates": [
             "35.369924, 52.357055"
         ],
+        "rating": null,
         "phone_list": [],
         "adress": [
             "Железногорск, ул. Красная звезда, 59А"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -164,12 +174,13 @@
         "coordinates": [
             "35.336785, 52.350185"
         ],
+        "rating": "3,7",
         "phone_list": [],
         "adress": [
             "Железногорск, СНТ Мичуринец, 2-я ул., 49"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Гриль-зона Заозерье",
@@ -177,6 +188,7 @@
         "coordinates": [
             "35.321973, 52.320419"
         ],
+        "rating": "5,0",
         "phone_list": [
             "+7 (980) 799-15-51"
         ],
@@ -197,12 +209,13 @@
         "coordinates": [
             "35.321335, 52.320419"
         ],
+        "rating": "3,7",
         "phone_list": [],
         "adress": [
             "Курская область, Железногорский район, село Разветье"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Утюг",
@@ -210,6 +223,7 @@
         "coordinates": [
             "35.432039, 52.331216"
         ],
+        "rating": null,
         "phone_list": [
             "+7 (951) 323-17-72"
         ],
@@ -217,7 +231,7 @@
             "Курская область, Железногорск"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -225,11 +239,12 @@
         "coordinates": [
             "35.345948, 52.395011"
         ],
+        "rating": "4,4",
         "phone_list": [],
         "adress": [
             "Орловская область, Дмитровский район, посёлок Артель-Труд"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     }
 ]

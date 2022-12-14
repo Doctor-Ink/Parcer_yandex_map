@@ -1,40 +1,31 @@
 import os
 import random
 from bs4 import BeautifulSoup
-from selenium import webdriver
 import time
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 import json
-from fake_useragent import UserAgent
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
 
-headers = {
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "user-agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
-}
 
 driver = uc.Chrome()
 wait = WebDriverWait(driver, 5)
 
 
-##### user-agent ########
+def time_track(func):
+    # функция-декаратор, которая считает время работы
+    def surogate(*args, **kwargs):
+        start_time = time.time()
 
-# wait.until(
-# EC.visibility_of_element_located(
-# (By.CSS_SELECTOR,
-#  'div.secondary-accordion:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)'))
-#  )
-# try:
-#     element = wait.until(
-#         EC.presence_of_element_located((By.ID, "myDynamicElement"))
-#     )
-# finally:
-#     driver.quit()
+        result = func(*args, **kwargs)
 
+        end_time= time.time()
+        result_time = end_time - start_time
+        print(f'Скрипт отработал - {round(result_time, 2)} секунды')
+        return result
+    return surogate
 
 def get_source_html(url):
     driver.get(url)
@@ -64,32 +55,22 @@ def get_source_html(url):
             time.sleep(1)
 
 
-def get_items_urls_and_rating(file_path):
+def get_all_card(file_path):
     with open(file_path, encoding='utf-8') as file:
         src = file.read()
 
     soup = BeautifulSoup(src, 'lxml')
     table_content = soup.find_all('li', class_='search-snippet-view')
     link_list = []
-    rating_list = []
     for item in table_content:
         link = item.find('a', class_='search-snippet-view__link-overlay _focusable').get('href')
         link_list.append(link)
-        try:
-            rating = item.find('span', class_='business-rating-badge-view__rating-text _size_m').text.strip()
-        except Exception:
-            print(f"Информации о рейтинге нет  -  {item.find('div', class_='search-business-snippet-view__address').text} - NONE")
-            rating = 'None'
-        rating_list.append(rating)
 
     with open('item_link.txt', mode='w') as file:
         for link in link_list:
             file.write(f"https://yandex.by{link}\n")
-
-    with open('rating.txt', mode='w') as file:
-        for item in rating_list:
-            file.write(f"{item}\n")
-    return "[INFO] Urls collected successfully!"
+    print("[INFO] Urls collected successfully!")
+    return len(link_list)
 
 
 def get_data(file_path, city):
@@ -119,15 +100,15 @@ def get_data(file_path, city):
             name_company = driver.find_element(By.CLASS_NAME, 'orgpage-header-view__header').text.strip()
             name_list.append(name_company)
         except Exception:
-            print('Name company is None')
-            name_company = None
+            # print('Name company is None')
+            name_company = ''
 
         # забираем адресс компании
         try:
             adress_company = driver.find_element(By.CLASS_NAME, 'business-contacts-view__address-link').text.strip()
             adress_list.append(adress_company)
         except Exception:
-            adress_company = None
+            adress_company = ''
 
         # Забираем координаты
         my_url = driver.current_url
@@ -135,47 +116,60 @@ def get_data(file_path, city):
         some_list = my_url.split('/')[-1].split('.')
         coordinates = [some_list[0][-2:] + '.' + some_list[1][:6] + ', ' + some_list[1][-2:] + '.' + some_list[2][:6]]
 
-
+        # Забираем рэйтинг компании
+        if driver.find_elements(By.XPATH, "//div[@class='orgpage-header-view__wrapper-rating']/div/div/div/div/span[@class='business-rating-badge-view__rating-text _size_m']") != []:
+            rating = driver.find_element(By.XPATH,
+                                         "//div[@class='orgpage-header-view__wrapper-rating']/div/div/div/div/span[@class='business-rating-badge-view__rating-text _size_m']").text.strip()
+        else:
+            rating = None
 
         # забираем телефонные номера
         try:
             # ожидаем пока не появится "показать телефон"
-            wait.until(EC.presence_of_element_located(
-                (By.CLASS_NAME, 'card-phones-view__more'))
-             )
+            show_phone = wait.until(EC.presence_of_element_located(
+                (By.CLASS_NAME, 'card-phones-view__phone'))
+            )
+            # print(show_phone)
             # нажимаем показать телефон
-            if driver.find_elements(By.CLASS_NAME, 'card-phones-view__more') != []:
-                driver.find_element(By.CLASS_NAME, 'card-phones-view__more').click()
-                time.sleep(0.2)
-                # ожидаем пока не появится "стрелка показать все контакты"
-                try:
-                    wait.until(EC.presence_of_all_elements_located(
-                        (By.CLASS_NAME, 'card-phones-view__phone-number'))
-                     )
-                    driver.find_element(By.CLASS_NAME, 'card-phones-view__phone-number').click()
-                except Exception as exc:
-                    print('Номер телефона один')
+            if show_phone:
+                # print('Нажимаем показать телефон')
+                show_phone.click()
+                # print('Нажали показать телефон')
+                arrow_down = wait.until(EC.presence_of_element_located(
+                    (By.XPATH,
+                     "//div[@class='card-phones-view _wide']/div/div/div/div/div[@class='card-feature-view__additional']"))
+                )
+                if arrow_down:
+                    # print('Нажимаем показать все телефоны')
+                    # arrow_down.click()
+                    driver.find_element(By.CLASS_NAME, 'card-phones-view__phone').click()
+                    # print('Нажали показать все телефоны!')
+                    wait.until(EC.presence_of_element_located(
+                        (By.CLASS_NAME, "card-dropdown-view__content"))
+                    )
+                    time.sleep(0.5)
+                    # print('Дождались появления стрелки вверх')
         except Exception as exc:
-            print('Телефон не указан')
+            pass
+            # print('Телефон не указан')
+            # print(exc)
 
         try:
-            phones_company = driver.find_elements(By.CLASS_NAME, 'card-phones-view__phone-number')
-            for phone_number in phones_company:
+            company_phones = driver.find_elements(By.CLASS_NAME, 'card-phones-view__phone-number')
+            for phone_number in company_phones:
                 phone_company = phone_number.text.strip()
                 phones_company_list.append(phone_company)
-            print('Phone numbers is done!!!')
+            # print('Phone numbers is done!!!')
         except Exception:
-            print('Телефон не указан на сайте')
-            phones_company_list = None
-
-
+            # print('Телефон не указан на сайте')
+            phones_company_list = ''
 
         # забираем сайт компании
         try:
-            site_company = driver.find_element(By.CLASS_NAME,'business-urls-view__text').text.strip()
+            site_company = driver.find_element(By.CLASS_NAME, 'business-urls-view__text').text.strip()
             site_list.append(site_company)
         except Exception:
-            site_company = None
+            site_company = ''
 
         # забираем ссылки на соцсети
         try:
@@ -186,9 +180,9 @@ def get_data(file_path, city):
                     # print(link)
                     social_media.append(link)
             else:
-                social_media = None
+                social_media = ''
         except Exception:
-            social_medias = None
+            social_medias = ''
         # print(name_company, phones_company_list, adress_company, site_company, social_media)
 
         result_list.append(
@@ -196,23 +190,21 @@ def get_data(file_path, city):
                 'name_company': name_company,
                 'url_yandex': url,
                 'coordinates': coordinates,
+                'rating': rating,
                 'phone_list': phones_company_list,
                 'adress': adress_list,
                 'site_company': site_list,
                 'social_networks_list': social_media
             }
         )
-        # time.sleep(random.randrange(1, 2))
         if count % 10 == 0:
             time.sleep(random.randrange(3, 5))
 
-
-
         with open(f'data\\{city}\\result.json', 'w', encoding='utf-8') as file:
             json.dump(result_list, file, indent=4, ensure_ascii=False)
-    return "[INFO] Data collected successfully!"
+    return f"[INFO] {city} - Data collected successfully!"
 
-
+@time_track
 def main():
     list_cities = []
     with open('cities.txt', encoding='utf-8') as file:
@@ -222,8 +214,9 @@ def main():
         list_cities = list_cities[:-1]
     print(list_cities)
 
+    count = 0
     try:
-        for city in list_cities[:3]:
+        for city in list_cities[51:52]:
             try:
                 os.mkdir(f'data\\{city}')
             except Exception as exc:
@@ -232,9 +225,11 @@ def main():
             # step 1 - открываем весь список яндекс карточек и записываем html в source_page.html
             get_source_html(url=f'https://yandex.by/maps/?text={city}+баня',)
             # step 2 получаем файл ссылок и файл рейтинга
-            print(get_items_urls_and_rating(file_path='source_page.html'))
+            count += get_all_card(file_path='source_page.html')
             # step 3 проходимся по списку ссылок и достём нужную нам информацию (адрес, телефон и т.д.)
             print(get_data(file_path='item_link.txt', city=city))
+            print(f'Общее количество карточек ---{count}')
+
     except Exception as exc:
         print(exc)
     finally:

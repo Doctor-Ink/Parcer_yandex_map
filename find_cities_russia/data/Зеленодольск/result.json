@@ -5,6 +5,7 @@
         "coordinates": [
             "48.524944, 55.847559"
         ],
+        "rating": "4,1",
         "phone_list": [
             "+7 (84371) 6-69-80"
         ],
@@ -12,7 +13,7 @@
             "Зеленодольск, ул. Ивана Заикина, 8"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -20,12 +21,13 @@
         "coordinates": [
             "48.565421, 55.854072"
         ],
+        "rating": "4,3",
         "phone_list": [],
         "adress": [
             "Зеленодольск, ул. Жукова, 2"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Оазис",
@@ -33,9 +35,10 @@
         "coordinates": [
             "48.531088, 55.843050"
         ],
+        "rating": "4,3",
         "phone_list": [
             "+7 (84371) 7-08-08",
-            ""
+            "+7 (953) 408-08-34"
         ],
         "adress": [
             "Зеленодольск, ул. Чапаева, 29А"
@@ -51,6 +54,7 @@
         "coordinates": [
             "48.546098, 55.847361"
         ],
+        "rating": "4,1",
         "phone_list": [
             "+7 (900) 322-23-23"
         ],
@@ -58,7 +62,7 @@
             "Зеленодольск, Йошкар-Олинская ул., 15"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Сабай-Сабай",
@@ -66,9 +70,10 @@
         "coordinates": [
             "48.539658, 55.848044"
         ],
+        "rating": null,
         "phone_list": [
             "+7 (950) 319-11-19",
-            ""
+            "+7 (960) 033-37-70"
         ],
         "adress": [
             "Зеленодольск, ул. Островского, 3"
@@ -84,12 +89,13 @@
         "coordinates": [
             "48.561577, 55.858594"
         ],
+        "rating": "3,7",
         "phone_list": [],
         "adress": [
             "Зеленодольск, ул. Комарова, 8"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Сауна",
@@ -97,6 +103,7 @@
         "coordinates": [
             "48.556968, 55.856558"
         ],
+        "rating": "2,4",
         "phone_list": [
             "+7 (84371) 7-77-39"
         ],
@@ -104,7 +111,7 @@
             "Зеленодольск, ул. Комарова, 2"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -112,6 +119,7 @@
         "coordinates": [
             "48.659385, 55.831787"
         ],
+        "rating": "4,5",
         "phone_list": [
             "+7 (927) 413-07-45"
         ],
@@ -119,7 +127,7 @@
             "п. г. т. Васильево, ул. Ленина, 42"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -127,12 +135,13 @@
         "coordinates": [
             "48.639344, 55.858617"
         ],
+        "rating": null,
         "phone_list": [],
         "adress": [
             "Республика Татарстан, Зеленодольск"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     },
     {
         "name_company": "Баня",
@@ -140,6 +149,7 @@
         "coordinates": [
             "48.688275, 55.828647"
         ],
+        "rating": "4,1",
         "phone_list": [
             "+7 (965) 580-69-31"
         ],
@@ -147,6 +157,6 @@
             "п. г. т. Васильево, Школьная ул., 58, корп. 2"
         ],
         "site_company": [],
-        "social_networks_list": null
+        "social_networks_list": ""
     }
 ]
