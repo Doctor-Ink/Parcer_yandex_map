@@ -10,7 +10,7 @@ CITIES = ['воскресенск', ]
 RESULT_FILE = 'data/result.xlsx'
 FILE_REQUESTS = 'requests.txt'
 COUNT = 0
-MAX_COUNT = 100
+MAX_COUNT = 40
 
 # Initialize logging
 logger = logging.getLogger(__name__)
