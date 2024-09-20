@@ -1,11 +1,15 @@
 /env
 /find_cities_russia
 /food_delivery
-/result.json
+/users
 /source_page.html
 /probe_page.html
+__pycache__/
+bot.log
 source_page.html
 result1.json
 probe_page.html
 geckodriver.log
+.idea
+
 
