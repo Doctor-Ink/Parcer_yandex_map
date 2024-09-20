@@ -10,7 +10,15 @@ from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
 
 
-driver = uc.Chrome()
+uc.TARGET_VERSION = 85
+driver = uc.Chrome(
+    headless=True,
+    # use_subprocess=False,
+    browser_executable_path=r'C:\Program Files\Google\Chrome Dev\Application\chrome.exe',
+)
+
+
+
 wait = WebDriverWait(driver, 5)
 
 
@@ -26,6 +34,7 @@ def time_track(func):
         print(f'Скрипт отработал - {round(result_time, 2)} секунды')
         return result
     return surogate
+
 
 def get_source_html(url):
     driver.get(url)

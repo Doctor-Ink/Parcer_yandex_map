@@ -1,9 +1,11 @@
 /env
+/find_cities_russia
+/food_delivery
 /result.json
 /source_page.html
 /probe_page.html
 source_page.html
 result1.json
 probe_page.html
-/find_cities_russia/source_page.html
-/find_cities_russia/data
+geckodriver.log
+

@@ -8,8 +8,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 import json
 
 headers = {
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "user-agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+    "Accept-Ch": "Sec-CH-UA-Bitness, Sec-CH-UA-Arch, Sec-CH-UA-Full-Version, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform, Sec-CH-UA, UA-Bitness, UA-Arch, UA-Full-Version, UA-Mobile, UA-Model, UA-Platform-Version, UA-Platform, UA",
+    "Access-Control-Allow-Credentials" : "true",
+    'Access-Control-Allow-Origin': "https://yandex.by",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
 }
 
 user_agents_list_desktop = [
@@ -17,28 +19,35 @@ user_agents_list_desktop = [
     'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36',
-    'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1'
+    'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36',
 ]
+
 
 def get_source_html(url):
 
+    # service = Service(
+    #     r'C:\Users\Professional\Desktop\pythonProjects\parcer_yandex_map_polyclinics_minsk\chromedriver\chromedriver.exe',
+    # )
+
     options = webdriver.ChromeOptions()
-    ##### user-agent ########
-    # options.add_argument(f"user-agent={random.choice(user_agents_list_desktop)}")
-    # disable wevdriver mode
+    # ##### user-agent ########
+    options.add_argument(f"user-agent={random.choice(user_agents_list_desktop)}")
+    # # disable older CromeDriver
+    # options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    # options.add_experimental_option("useAutomationExtension", False)
+
+    # # disable wevdriver mode
     options.add_argument("--disable-blink-features=AutomationControlled")
-    # версия драйвера Index of /105.
-    service = Service(
-        r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\chromedriver\chromedriver.exe',
-    )
-    driver = webdriver.Chrome(service=service, options=options)
+
+    driver = webdriver.Chrome(options=options)
 
     try:
         # open url
         driver.get(url)
         driver.maximize_window()
         time.sleep(1)
-        driver.implicitly_wait(30)
+        driver.implicitly_wait(2)
         while True:
             # в бесконечном цикле проходим до конца страницы
             div_element_ol = driver.find_elements(By.CLASS_NAME, 'seo-pagination-view')
@@ -47,24 +56,35 @@ def get_source_html(url):
             print(f'количество неотрытых карточек - {len(divs_element_placeholder)}')
             for index in range(0, len(divs_element_placeholder), 2):
                 actions = ActionChains(driver)
-                driver.implicitly_wait(30)
+                # driver.implicitly_wait(30)
                 actions.move_to_element(divs_element_placeholder[index]).perform()
-                time.sleep(1)
-            print(len(divs_element_placeholder))
+                # time.sleep(0.1)
             trigger = driver.find_elements(By.CLASS_NAME, 'add-business-view__link')
+            divs_element_placeholder = driver.find_elements(By.CLASS_NAME, 'search-snippet-view__placeholder')
             if trigger and (len(divs_element_placeholder) == 0):
                 with open("source_page.html", mode='w', encoding='utf-8') as file:
                     file.write(driver.page_source)
+                print(f'File source_page is done')
                 break
             else:
-                actions = ActionChains(driver)
-                actions.move_to_element(div_element_ol[0]).perform()
-                time.sleep(3)
+                # перевожу каретку
+                try:
+                    # перетаскиваем ползунок на панели карточек
+                    crawler = driver.find_element(By.CLASS_NAME, 'scroll__scrollbar-thumb')
+                    action_chains = ActionChains(driver)
+                    action_chains.drag_and_drop_by_offset(crawler, 0, 5)
+                    action_chains.perform()
+                    print('Скрол вниз')
+                    time.sleep(1)
+                except Exception:
+                    print('Нет элемента  search-list-view__spinner ')
+                # time.sleep(2)
     except Exception as exc:
         print(exc)
     finally:
         driver.close()
         driver.quit()
+
 
 def get_items_urls_and_rating(file_path):
     with open(file_path, encoding='utf-8') as file:
@@ -100,15 +120,11 @@ def get_data(file_path):
         url_list = [url.strip() for url in file.readlines()]
 
     options = webdriver.ChromeOptions()
-    # disable wevdriver mode
+    # # disable wevdriver mode
     options.add_argument("--disable-blink-features=AutomationControlled")
-    # запуск в фоновом режиме
-    options.add_argument('--headless')
-    # версия драйвера Index of /105
-    service = Service(
-        r'C:\Users\Zver\PycharmProjects\parcer_yandex_map_polyclinics_minsk\chromedriver\chromedriver.exe',
-    )
-    driver = webdriver.Chrome(service=service, options=options)
+    # # запуск в фоновом режиме
+    # options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
 
     try:
         result_list = []
@@ -175,7 +191,7 @@ def get_data(file_path):
                         social_media.append(link)
                 else:
                     social_media = None
-            except Exception:
+            except Exception as exc:
                 social_medias = None
             # print(name_company, phones_company_list, adress_company, site_company, social_media)
 
@@ -199,8 +215,6 @@ def get_data(file_path):
 
             with open('result1.json', 'w', encoding='utf-8') as file:
                 json.dump(result_list, file, indent=4, ensure_ascii=False)
-
-
 
     except Exception as exc:
         print(exc)
