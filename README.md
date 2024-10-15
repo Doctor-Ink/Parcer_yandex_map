@@ -7,3 +7,5 @@ Find all policlinic Minsk (Selenium)
 4. устновить кол-во компаний
 5. и всё
 
+SOLID 
+Обязательно прочитать API яндекс карт...
